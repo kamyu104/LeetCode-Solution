@@ -1,15 +1,56 @@
 # Time:  O(n)
 # Space: O(1)
 
-class Solution(object):
-    # @return an integer
-    def romanToInt(self, s):
-        numeral_map = {"I": 1, "V": 5, "X": 10, "L": 50, "C":100, "D": 500, "M": 1000}
-        decimal = 0
-        for i in xrange(len(s)):
-            if i > 0 and numeral_map[s[i]] > numeral_map[s[i - 1]]:
-                decimal += numeral_map[s[i]] - 2 * numeral_map[s[i - 1]]
-            else:
-                decimal += numeral_map[s[i]]
-        return decimal
+class Solution:
+    def intToRoman(self, num: int) -> str:
 
+    
+        num_to_roman = {
+            1 : "I",
+            5 : "V",
+            10: "X", 
+            50: "L", 
+            100: "C", 
+            500: "D", 
+            1000: "M", 
+            4: "IV", 
+            40: "XL", 
+            400: "CD", 
+            9: "IX", 
+            90: "XC", 
+            900: "CM"
+        }
+        
+        if num_to_roman.get(num, 0):
+            return num_to_roman[num]
+        
+        output = ''
+        num = str(num)
+        digits = len(num)
+        for i, char in enumerate(num): 
+            
+            multiple = (10**(digits-i-1))
+            n = int(char)*multiple
+            
+            
+            # perform lookup 
+            if num_to_roman.get(n, 0):
+                output += num_to_roman[n]
+                continue
+            
+            val = n//multiple
+            if val < 5:
+                output += num_to_roman[multiple]*val
+            
+            else: 
+                output += num_to_roman[multiple*5]
+                val = val - 5
+                output += num_to_roman[multiple]*val
+                
+            
+        return output
+
+            
+        
+        
+        
