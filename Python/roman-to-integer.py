@@ -2,53 +2,44 @@
 # Space: O(1)
 
 class Solution:
-    def intToRoman(self, num: int) -> str:
-
-    
-        num_to_roman = {
-            1 : "I",
-            5 : "V",
-            10: "X", 
-            50: "L", 
-            100: "C", 
-            500: "D", 
-            1000: "M", 
-            4: "IV", 
-            40: "XL", 
-            400: "CD", 
-            9: "IX", 
-            90: "XC", 
-            900: "CM"
+    def romanToInt(self, s: str) -> int:
+        
+        roman_to_num = {
+            "I":1, 
+            "V":5,
+            "X":10,
+            "L":50,
+            "C":100,
+            "D":500,
+            "M":1000, 
+            "IV":4, 
+            "XL":40, 
+            "CD":400,
+            "IX":9,
+            "XC":90,
+            "CM":900
         }
         
-        if num_to_roman.get(num, 0):
-            return num_to_roman[num]
+        if roman_to_num.get(s, 0):
+            return roman_to_num[s]
         
-        output = ''
-        num = str(num)
-        digits = len(num)
-        for i, char in enumerate(num): 
-            
-            multiple = (10**(digits-i-1))
-            n = int(char)*multiple
-            
-            
-            # perform lookup 
-            if num_to_roman.get(n, 0):
-                output += num_to_roman[n]
-                continue
-            
-            val = n//multiple
-            if val < 5:
-                output += num_to_roman[multiple]*val
-            
-            else: 
-                output += num_to_roman[multiple*5]
-                val = val - 5
-                output += num_to_roman[multiple]*val
+        out = 0
+        i = 0
+        while i < len(s):
+            if i < len(s)-1:
                 
+                # Check if the next two are equal to something 
+                if roman_to_num.get(s[i:i+2], 0):
+                    out += roman_to_num[s[i:i+2]]
+                    i += 2
+                    continue
             
-        return output
+            out += roman_to_num[s[i]]
+            i += 1
+            
+        return out
+
+
 
             
         
